@@ -1,8 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:queue_app/values.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:queue_app/models/token_status.dart';
 
-class TokenStatus extends StatelessWidget {
+class TokenStatus extends StatefulWidget {
   const TokenStatus({Key? key}) : super(key: key);
+
+  @override
+  _TokenStatusState createState() => _TokenStatusState();
+}
+
+class _TokenStatusState extends State<TokenStatus> {
+  Future getTokenStatus() async {
+    var response = await http
+        .get(Uri.https("ahmednill.000webhostapp.com", "api/token-status"));
+
+    var jsonData = jsonDecode(response.body.toString());
+    List<TokenStatusModel> tokenStatuses = [];
+
+    for (var t in jsonData) {
+      TokenStatusModel tokenStatusModel = TokenStatusModel(
+          t['id'], t['name'], t['job'], t['room'], t['waiting'], t['serving']);
+      tokenStatuses.add(tokenStatusModel);
+    }
+
+    print(tokenStatuses.length);
+    return tokenStatuses;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +52,11 @@ class TokenStatus extends StatelessWidget {
           '8',
           '2',
         ),
+        ElevatedButton(
+            onPressed: () {
+              getTokenStatus();
+            },
+            child: Text('Test'))
       ],
     );
   }
