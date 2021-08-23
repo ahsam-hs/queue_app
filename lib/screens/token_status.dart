@@ -17,16 +17,16 @@ class _TokenStatusState extends State<TokenStatus> {
         .get(Uri.https("ahmednill.000webhostapp.com", "api/token-status"));
 
     var jsonData = jsonDecode(response.body.toString());
-    List<TokenStatusModel> tokenStatuses = [];
+    List<TokenStatusModel> tokenStatusList = [];
 
     for (var t in jsonData) {
       TokenStatusModel tokenStatusModel = TokenStatusModel(
           t['id'], t['name'], t['job'], t['room'], t['waiting'], t['serving']);
-      tokenStatuses.add(tokenStatusModel);
+      tokenStatusList.add(tokenStatusModel);
     }
 
-    print(tokenStatuses.length);
-    return tokenStatuses;
+    print(tokenStatusList.length);
+    return tokenStatusList;
   }
 
   @override
@@ -36,22 +36,60 @@ class _TokenStatusState extends State<TokenStatus> {
         SizedBox(
           height: 10.0,
         ),
-        TokenStatusCard(
-          'ROOM-1',
-          'DR. ABDUL MUMIN KHAN',
-          'Consultant Gaenocologist',
-          '20',
-          '10',
-          '10',
+        FutureBuilder(
+          // initialData: [],
+          future: getTokenStatus(),
+          builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+            if (snapshot.hasError) {
+              return Center(
+                child: Text('Loading failed'),
+              );
+            } else if (snapshot.hasData) {
+              return ListView.builder(
+                itemCount: snapshot.data.toString().length,
+                itemBuilder: (context, i) {
+                  return TokenStatusCard(
+                      snapshot.data[i].room,
+                      snapshot.data[i].name,
+                      snapshot.data[i].job,
+                      snapshot.data[i].total_patients,
+                      snapshot.data[i].waiting,
+                      snapshot.data[i].serving);
+                },
+              );
+            } else {
+              return Column(
+                children: [
+                  SizedBox(
+                    child: CircularProgressIndicator(),
+                    width: 60,
+                    height: 60,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: 16),
+                    child: Text('Awaiting result...'),
+                  )
+                ],
+              );
+            }
+          },
         ),
-        TokenStatusCard(
-          'ROOM-10',
-          'DR. MAUMOON ABDUL QAYOOM',
-          'Consultant Radiologist',
-          '10',
-          '8',
-          '2',
-        ),
+        // TokenStatusCard(
+        //   'ROOM-1',
+        //   'DR. ABDUL MUMIN KHAN',
+        //   'Consultant Gaenocologist',
+        //   '20',
+        //   '10',
+        //   '10',
+        // ),
+        // TokenStatusCard(
+        //   'ROOM-10',
+        //   'DR. MAUMOON ABDUL QAYOOM',
+        //   'Consultant Radiologist',
+        //   '10',
+        //   '8',
+        //   '2',
+        // ),
         ElevatedButton(
             onPressed: () {
               getTokenStatus();
