@@ -31,71 +31,72 @@ class _TokenStatusState extends State<TokenStatus> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: [
-        SizedBox(
-          height: 10.0,
-        ),
-        FutureBuilder(
-          // initialData: [],
-          future: getTokenStatus(),
-          builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-            if (snapshot.hasError) {
-              return Center(
-                child: Text('Loading failed'),
-              );
-            } else if (snapshot.hasData) {
-              return ListView.builder(
-                itemCount: snapshot.data.toString().length,
+    return Expanded(
+      child: FutureBuilder(
+        initialData: [],
+        future: getTokenStatus(),
+        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+          if (snapshot.hasError) {
+            return Center(
+              child: Text('Loading failed'),
+            );
+          } else if (snapshot.hasData) {
+            return Expanded(
+              child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: snapshot.data.length,
                 itemBuilder: (context, i) {
                   return TokenStatusCard(
-                      snapshot.data[i].room,
-                      snapshot.data[i].name,
-                      snapshot.data[i].job,
-                      snapshot.data[i].total_patients,
-                      snapshot.data[i].waiting,
-                      snapshot.data[i].serving);
+                    snapshot.data[i].room,
+                    snapshot.data[i].name,
+                    snapshot.data[i].job,
+                    "10",
+                    snapshot.data[i].waiting,
+                    snapshot.data[i].serving,
+                  );
                 },
-              );
-            } else {
-              return Column(
-                children: [
-                  SizedBox(
-                    child: CircularProgressIndicator(),
-                    width: 60,
-                    height: 60,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 16),
-                    child: Text('Awaiting result...'),
-                  )
-                ],
-              );
-            }
-          },
-        ),
-        // TokenStatusCard(
-        //   'ROOM-1',
-        //   'DR. ABDUL MUMIN KHAN',
-        //   'Consultant Gaenocologist',
-        //   '20',
-        //   '10',
-        //   '10',
-        // ),
-        // TokenStatusCard(
-        //   'ROOM-10',
-        //   'DR. MAUMOON ABDUL QAYOOM',
-        //   'Consultant Radiologist',
-        //   '10',
-        //   '8',
-        //   '2',
-        // ),
-        ElevatedButton(
-            onPressed: () {
-              getTokenStatus();
-            },
-            child: Text('Test'))
-      ],
+              ),
+            );
+          } else {
+            return Column(
+              children: [
+                SizedBox(
+                  child: CircularProgressIndicator(),
+                  width: 60,
+                  height: 60,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 16),
+                  child: Text('Awaiting result...'),
+                )
+              ],
+            );
+          }
+        },
+      ),
+
+      // TokenStatusCard(
+      //   'ROOM-1',
+      //   'DR. ABDUL MUMIN KHAN',
+      //   'Consultant Gaenocologist',
+      //   '20',
+      //   '10',
+      //   '10',
+      // ),
+      // TokenStatusCard(
+      //   'ROOM-10',
+      //   'DR. MAUMOON ABDUL QAYOOM',
+      //   'Consultant Radiologist',
+      //   '10',
+      //   '8',
+      //   '2',
+      // ),
+      //   ElevatedButton(
+      //       onPressed: () {
+      //         getTokenStatus();
+      //       },
+      //       child: Text('Test'))
+      // ],
     );
   }
 }
