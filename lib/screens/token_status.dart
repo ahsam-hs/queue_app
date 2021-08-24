@@ -20,8 +20,8 @@ class _TokenStatusState extends State<TokenStatus> {
     List<TokenStatusModel> tokenStatusList = [];
 
     for (var t in jsonData) {
-      TokenStatusModel tokenStatusModel = TokenStatusModel(
-          t['id'], t['name'], t['job'], t['room'], t['waiting'], t['serving']);
+      TokenStatusModel tokenStatusModel = TokenStatusModel(t['id'], t['name'],
+          t['job'], t['room'], t['waiting'], t['serving'], t['total_patients']);
       tokenStatusList.add(tokenStatusModel);
     }
 
@@ -50,7 +50,7 @@ class _TokenStatusState extends State<TokenStatus> {
                     snapshot.data[i].room,
                     snapshot.data[i].name,
                     snapshot.data[i].job,
-                    "10",
+                    snapshot.data[i].totalPatients,
                     snapshot.data[i].waiting,
                     snapshot.data[i].serving,
                   );
@@ -66,7 +66,7 @@ class _TokenStatusState extends State<TokenStatus> {
                   height: 60,
                 ),
                 Padding(
-                  padding: EdgeInsets.only(top: 16),
+                  padding: EdgeInsets.only(top: 25),
                   child: Text('Awaiting result...'),
                 )
               ],
@@ -74,29 +74,6 @@ class _TokenStatusState extends State<TokenStatus> {
           }
         },
       ),
-
-      // TokenStatusCard(
-      //   'ROOM-1',
-      //   'DR. ABDUL MUMIN KHAN',
-      //   'Consultant Gaenocologist',
-      //   '20',
-      //   '10',
-      //   '10',
-      // ),
-      // TokenStatusCard(
-      //   'ROOM-10',
-      //   'DR. MAUMOON ABDUL QAYOOM',
-      //   'Consultant Radiologist',
-      //   '10',
-      //   '8',
-      //   '2',
-      // ),
-      //   ElevatedButton(
-      //       onPressed: () {
-      //         getTokenStatus();
-      //       },
-      //       child: Text('Test'))
-      // ],
     );
   }
 }
@@ -144,7 +121,9 @@ class TokenStatusCard extends StatelessWidget {
                   height: 5.0,
                 ),
                 Text(
-                  doctorsName,
+                  doctorsName.length > 30
+                      ? doctorsName.substring(0, 29)
+                      : doctorsName,
                   style: doctorNameStyle,
                 ),
                 Text(doctorSpeciality, style: whiteText),
