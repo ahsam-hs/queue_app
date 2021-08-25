@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
 
-Color mainColor = Color(0xFFBFBBCE);
+Color mainColor = Color(0xFFEBE7F8);
 
 // Color mainColor = Color(0xFF444273);
 
 TextStyle blueTextStyle = TextStyle(
-  color: Color(0xFF3796C9),
+  color: Color(0xFF05486C),
 );
 
 TextStyle doctorNameStyle = TextStyle(
-  color: Colors.white,
+  color: Colors.black,
   fontSize: 15.0,
 );
 
-TextStyle whiteText = TextStyle(
-  color: Colors.white,
+TextStyle blackText = TextStyle(
+  color: Colors.black,
 );
 
-TextStyle whiteTextLow = TextStyle(
-  color: Colors.white54,
+TextStyle blackTextLow = TextStyle(
+  color: Colors.black54,
 );
 
 EdgeInsets cardInsets =

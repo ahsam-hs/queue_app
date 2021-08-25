@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:queue_app/screens/error_loading_container.dart';
 import 'package:queue_app/values.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:queue_app/models/token_status.dart';
+import 'waiting_container.dart';
 
 class TokenStatus extends StatefulWidget {
   const TokenStatus({Key? key}) : super(key: key);
@@ -32,7 +34,6 @@ class _TokenStatusState extends State<TokenStatus> {
       tokenStatusList.add(tokenStatusModel);
     }
 
-    print(tokenStatusList.length);
     return tokenStatusList;
   }
 
@@ -48,19 +49,7 @@ class _TokenStatusState extends State<TokenStatus> {
               future: getTokenStatus(),
               builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Column(
-                    children: [
-                      SizedBox(
-                        child: CircularProgressIndicator(),
-                        width: 60,
-                        height: 60,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(top: 25),
-                        child: Text('Awaiting result...'),
-                      )
-                    ],
-                  );
+                  return WaitingContainer();
                 } else if (snapshot.hasData) {
                   return ListView.builder(
                     shrinkWrap: true,
@@ -78,10 +67,7 @@ class _TokenStatusState extends State<TokenStatus> {
                     },
                   );
                 } else {
-                  print(snapshot.data);
-                  return Center(
-                    child: Text('Loading failed'),
-                  );
+                  return ErrorLoadingContainer();
                 }
               },
             ),
@@ -148,7 +134,7 @@ class TokenStatusCard extends StatelessWidget {
                       : doctorsName,
                   style: doctorNameStyle,
                 ),
-                Text(doctorSpeciality, style: whiteText),
+                Text(doctorSpeciality, style: blackText),
                 SizedBox(
                   height: 10.0,
                 ),
@@ -159,7 +145,7 @@ class TokenStatusCard extends StatelessWidget {
                       waitingPatients +
                       '\t Serving ' +
                       servingToken,
-                  style: whiteTextLow,
+                  style: blackTextLow,
                 ),
               ],
             ),

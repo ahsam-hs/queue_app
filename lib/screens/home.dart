@@ -23,6 +23,7 @@ class _HomeState extends State<Home> {
             backgroundColor: mainColor,
             bottom: const TabBar(
               isScrollable: true,
+              labelColor: Colors.black87,
               tabs: [
                 Tab(text: 'Get Token'),
                 Tab(text: 'Services'),
@@ -30,7 +31,10 @@ class _HomeState extends State<Home> {
                 Tab(text: "Doctors' Duty"),
               ],
             ),
-            title: Text('URH Queue'),
+            title: Text(
+              'URH Queue',
+              style: TextStyle(color: Colors.black87),
+            ),
           ),
           body: TabBarView(children: [
             GetToken(),

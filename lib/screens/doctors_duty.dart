@@ -1,37 +1,84 @@
 import 'package:flutter/material.dart';
+import 'package:queue_app/screens/error_loading_container.dart';
+import 'package:queue_app/screens/waiting_container.dart';
 import 'package:queue_app/values.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:queue_app/models/doctors_duty.dart';
 
-class DoctorsDuty extends StatelessWidget {
+class DoctorsDuty extends StatefulWidget {
+  @override
+  _DoctorsDutyState createState() => _DoctorsDutyState();
+}
+
+class _DoctorsDutyState extends State<DoctorsDuty> {
+  Future getDoctorsDuty() async {
+    var response = await http
+        .get(Uri.https("ahmednill.000webhostapp.com", "api/doctors-duty"));
+    var jsonData = jsonDecode(response.body.toString());
+    List<DoctorsDutyModel> doctorsDutyList = [];
+
+    for (var d in jsonData) {
+      DoctorsDutyModel doctorsDutyModel =
+          DoctorsDutyModel(d['name'], d['job'], d['room'], d['time']);
+      doctorsDutyList.add(doctorsDutyModel);
+    }
+
+    return doctorsDutyList;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: [
-        SizedBox(
-          height: 10.0,
-        ),
-        DoctorDutyCard(
-            dutyType: 'IPD',
-            doctorName: 'DR. SAIFEDDIN ABDUL MUMIN',
-            speciality: 'Consultant Psychiatrist',
-            dutyTime: '12:00 - 14:00')
-      ],
+    return Container(
+      child: Flex(
+        direction: Axis.vertical,
+        children: [
+          Expanded(
+            child: FutureBuilder(
+              initialData: [],
+              future: getDoctorsDuty(),
+              builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return WaitingContainer();
+                } else if (snapshot.hasData) {
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: snapshot.data.length,
+                    itemBuilder: (context, i) {
+                      return DoctorDutyCard(
+                          snapshot.data[i].room,
+                          snapshot.data[i].name,
+                          snapshot.data[i].job,
+                          snapshot.data[i].time);
+                    },
+                  );
+                } else {
+                  return ErrorLoadingContainer();
+                }
+              },
+            ),
+          ),
+          SizedBox(
+            height: 10.0,
+          ),
+        ],
+      ),
     );
   }
 }
 
 class DoctorDutyCard extends StatelessWidget {
-  const DoctorDutyCard({
-    Key? key,
-    required this.dutyType,
-    required this.doctorName,
-    required this.speciality,
-    required this.dutyTime,
-  }) : super(key: key);
+  DoctorDutyCard(
+    this.room,
+    this.name,
+    this.job,
+    this.time,
+  );
 
-  final String dutyType;
-  final String doctorName;
-  final String speciality;
-  final String dutyTime;
+  final String room;
+  final String name;
+  final String job;
+  final String time;
 
   @override
   Widget build(BuildContext context) {
@@ -55,20 +102,20 @@ class DoctorDutyCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                dutyType,
+                room,
                 style: blueTextStyle,
               ),
-              Text(doctorName, style: doctorNameStyle),
+              Text(name, style: doctorNameStyle),
               Text(
-                speciality,
-                style: whiteText,
+                job,
+                style: blackText,
               ),
               SizedBox(
                 height: 20.0,
               ),
               Text(
-                dutyTime,
-                style: whiteTextLow,
+                time,
+                style: blackTextLow,
               ),
             ],
           ),
