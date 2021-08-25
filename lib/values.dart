@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
-Color mainColor = Color(0xFF444273);
+Color mainColor = Color(0xFFBFBBCE);
+
+// Color mainColor = Color(0xFF444273);
 
 TextStyle blueTextStyle = TextStyle(
   color: Color(0xFF3796C9),
@@ -20,4 +22,4 @@ TextStyle whiteTextLow = TextStyle(
 );
 
 EdgeInsets cardInsets =
-    const EdgeInsets.only(top: 10.0, bottom: 0.0, left: 10.0, right: 10.0);
+    const EdgeInsets.only(top: 10.0, bottom: 5.0, left: 10.0, right: 10.0);

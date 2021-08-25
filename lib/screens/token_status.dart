@@ -20,8 +20,15 @@ class _TokenStatusState extends State<TokenStatus> {
     List<TokenStatusModel> tokenStatusList = [];
 
     for (var t in jsonData) {
-      TokenStatusModel tokenStatusModel = TokenStatusModel(t['id'], t['name'],
-          t['job'], t['room'], t['waiting'], t['serving'], t['total_patients']);
+      TokenStatusModel tokenStatusModel = TokenStatusModel(
+          t['id'],
+          t['name'],
+          t['job'],
+          t['room'],
+          t['waiting'],
+          t['serving'],
+          t['total_patients'],
+          t['avatar']);
       tokenStatusList.add(tokenStatusModel);
     }
 
@@ -31,56 +38,70 @@ class _TokenStatusState extends State<TokenStatus> {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: FutureBuilder(
-        initialData: [],
-        future: getTokenStatus(),
-        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-          if (snapshot.hasError) {
-            return Center(
-              child: Text('Loading failed'),
-            );
-          } else if (snapshot.hasData) {
-            return Expanded(
-              child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: snapshot.data.length,
-                itemBuilder: (context, i) {
-                  return TokenStatusCard(
-                    snapshot.data[i].room,
-                    snapshot.data[i].name,
-                    snapshot.data[i].job,
-                    snapshot.data[i].totalPatients,
-                    snapshot.data[i].waiting,
-                    snapshot.data[i].serving,
+    return Container(
+      child: Flex(
+        direction: Axis.vertical,
+        children: [
+          Expanded(
+            child: FutureBuilder(
+              initialData: [],
+              future: getTokenStatus(),
+              builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Column(
+                    children: [
+                      SizedBox(
+                        child: CircularProgressIndicator(),
+                        width: 60,
+                        height: 60,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(top: 25),
+                        child: Text('Awaiting result...'),
+                      )
+                    ],
                   );
-                },
-              ),
-            );
-          } else {
-            return Column(
-              children: [
-                SizedBox(
-                  child: CircularProgressIndicator(),
-                  width: 60,
-                  height: 60,
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top: 25),
-                  child: Text('Awaiting result...'),
-                )
-              ],
-            );
-          }
-        },
+                } else if (snapshot.hasData) {
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: snapshot.data.length,
+                    itemBuilder: (context, i) {
+                      return TokenStatusCard(
+                        snapshot.data[i].room,
+                        snapshot.data[i].name,
+                        snapshot.data[i].job,
+                        snapshot.data[i].totalPatients,
+                        snapshot.data[i].waiting,
+                        snapshot.data[i].serving,
+                        snapshot.data[i].avatar,
+                      );
+                    },
+                  );
+                } else {
+                  print(snapshot.data);
+                  return Center(
+                    child: Text('Loading failed'),
+                  );
+                }
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
 }
 
 class TokenStatusCard extends StatelessWidget {
-  TokenStatusCard(this.roomNum, this.doctorsName, this.doctorSpeciality,
-      this.totalPatients, this.waitingPatients, this.servingToken);
+  TokenStatusCard(
+    this.roomNum,
+    this.doctorsName,
+    this.doctorSpeciality,
+    this.totalPatients,
+    this.waitingPatients,
+    this.servingToken,
+    this.avatarLink,
+  );
 
   final String roomNum;
   final String doctorsName;
@@ -88,6 +109,7 @@ class TokenStatusCard extends StatelessWidget {
   final String waitingPatients;
   final String totalPatients;
   final String servingToken;
+  final String avatarLink;
 
   @override
   Widget build(BuildContext context) {
@@ -105,7 +127,7 @@ class TokenStatusCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 CircleAvatar(
-                  backgroundColor: Colors.red,
+                  child: Image.network(avatarLink),
                   radius: 30.0,
                 ),
               ],
@@ -140,7 +162,7 @@ class TokenStatusCard extends StatelessWidget {
                   style: whiteTextLow,
                 ),
               ],
-            )
+            ),
           ],
         ),
       ),
