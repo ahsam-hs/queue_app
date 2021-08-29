@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 Color mainColor = Color(0xFFEBE7F8);
 
+Color mainDarkColor = Color(0xFFA99CD5);
+
 // Color mainColor = Color(0xFF444273);
 
 TextStyle blueTextStyle = TextStyle(

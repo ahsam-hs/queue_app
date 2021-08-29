@@ -38,7 +38,7 @@ class RegistrationButton extends StatelessWidget {
   final String subtitle;
 
   final TextStyle whiteText = TextStyle(
-    color: Colors.white,
+    color: Colors.black54,
   );
 
   @override
@@ -47,12 +47,21 @@ class RegistrationButton extends StatelessWidget {
       padding: cardInsets,
       child: OutlinedButton(
         style: ButtonStyle(
+          side: MaterialStateProperty.all(
+            BorderSide(
+              width: 0.5,
+              color: mainColor,
+              style: BorderStyle.solid,
+            ),
+          ),
+          shadowColor: MaterialStateProperty.all(mainDarkColor),
           shape: MaterialStateProperty.all(
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10.0),
             ),
           ),
           backgroundColor: MaterialStateProperty.all(mainColor),
+          elevation: MaterialStateProperty.all(0.5),
         ),
         onPressed: () {},
         child: ListTile(

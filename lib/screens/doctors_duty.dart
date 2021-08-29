@@ -89,9 +89,9 @@ class DoctorDutyCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(10.0),
           boxShadow: [
             BoxShadow(
-              offset: Offset.zero,
-              blurRadius: 24.0,
-              color: Color(0x0F524ABF),
+              spreadRadius: 0.5,
+              blurRadius: 3.0,
+              color: mainDarkColor,
             ),
           ],
           color: mainColor,

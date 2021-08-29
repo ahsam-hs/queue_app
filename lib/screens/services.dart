@@ -41,7 +41,9 @@ class _ServicesState extends State<Services> {
               future: getServices(),
               builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return WaitingContainer();
+                  return Center(
+                    child: WaitingContainer(),
+                  );
                 } else if (snapshot.hasData) {
                   return ListView.builder(
                       shrinkWrap: true,
@@ -110,7 +112,16 @@ class StatusCard extends StatelessWidget {
       padding: cardInsets,
       child: Container(
         decoration: BoxDecoration(
-            color: mainColor, borderRadius: BorderRadius.circular(10.0)),
+          boxShadow: [
+            BoxShadow(
+              color: mainDarkColor,
+              spreadRadius: 0.5,
+              blurRadius: 3.0,
+            ),
+          ],
+          color: mainColor,
+          borderRadius: BorderRadius.circular(10.0),
+        ),
         padding: EdgeInsets.all(10.0),
         child: Padding(
           padding: const EdgeInsets.all(15.0),

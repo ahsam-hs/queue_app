@@ -103,9 +103,15 @@ class TokenStatusCard extends StatelessWidget {
       padding: cardInsets,
       child: Container(
         decoration: BoxDecoration(
-          color: mainColor,
-          borderRadius: BorderRadius.circular(10.0),
-        ),
+            color: mainColor,
+            borderRadius: BorderRadius.circular(10.0),
+            boxShadow: [
+              BoxShadow(
+                blurRadius: 3.0,
+                color: mainDarkColor,
+                spreadRadius: 0.5,
+              )
+            ]),
         padding: EdgeInsets.all(10.0),
         child: Row(
           children: [
