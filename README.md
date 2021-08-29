@@ -1,6 +1,6 @@
-# queue_app
+# URH Queue
 
-A new Flutter project.
+Flutter mobile phone project for the queue system management of Ungoofaaru Regional Hospital.
 
 ## Getting Started
 
