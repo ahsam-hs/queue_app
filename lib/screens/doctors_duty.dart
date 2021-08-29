@@ -85,17 +85,7 @@ class DoctorDutyCard extends StatelessWidget {
     return Padding(
       padding: cardInsets,
       child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10.0),
-          boxShadow: [
-            BoxShadow(
-              spreadRadius: 0.5,
-              blurRadius: 3.0,
-              color: mainDarkColor,
-            ),
-          ],
-          color: mainColor,
-        ),
+        decoration: cardDecoration,
         child: Padding(
           padding: const EdgeInsets.all(10.0),
           child: Column(
@@ -103,7 +93,7 @@ class DoctorDutyCard extends StatelessWidget {
             children: [
               Text(
                 room,
-                style: blueTextStyle,
+                style: redTextStyle,
               ),
               Text(name, style: doctorNameStyle),
               Text(

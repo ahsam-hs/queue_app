@@ -102,16 +102,7 @@ class TokenStatusCard extends StatelessWidget {
     return Padding(
       padding: cardInsets,
       child: Container(
-        decoration: BoxDecoration(
-            color: mainColor,
-            borderRadius: BorderRadius.circular(10.0),
-            boxShadow: [
-              BoxShadow(
-                blurRadius: 3.0,
-                color: mainDarkColor,
-                spreadRadius: 0.5,
-              )
-            ]),
+        decoration: cardDecoration,
         padding: EdgeInsets.all(10.0),
         child: Row(
           children: [
@@ -130,7 +121,7 @@ class TokenStatusCard extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(roomNum, style: blueTextStyle),
+                Text(roomNum, style: redTextStyle),
                 SizedBox(
                   height: 5.0,
                 ),

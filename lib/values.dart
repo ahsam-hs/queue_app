@@ -1,13 +1,25 @@
 import 'package:flutter/material.dart';
 
-Color mainColor = Color(0xFFEBE7F8);
+Color mainColor = Color(0xFFFFFFFF);
 
-Color mainDarkColor = Color(0xFFA99CD5);
+Color mainDarkColor = Color(0xFFF6F6F6);
+
+BoxDecoration cardDecoration = BoxDecoration(
+  color: mainColor,
+  borderRadius: BorderRadius.circular(10.0),
+  boxShadow: [
+    BoxShadow(
+      blurRadius: 1.0,
+      color: mainDarkColor,
+      spreadRadius: 0.1,
+    ),
+  ],
+);
 
 // Color mainColor = Color(0xFF444273);
 
-TextStyle blueTextStyle = TextStyle(
-  color: Color(0xFF05486C),
+TextStyle redTextStyle = TextStyle(
+  color: Color(0xFF97071C),
 );
 
 TextStyle doctorNameStyle = TextStyle(

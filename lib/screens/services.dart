@@ -111,17 +111,7 @@ class StatusCard extends StatelessWidget {
     return Padding(
       padding: cardInsets,
       child: Container(
-        decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              color: mainDarkColor,
-              spreadRadius: 0.5,
-              blurRadius: 3.0,
-            ),
-          ],
-          color: mainColor,
-          borderRadius: BorderRadius.circular(10.0),
-        ),
+        decoration: cardDecoration,
         padding: EdgeInsets.all(10.0),
         child: Padding(
           padding: const EdgeInsets.all(15.0),
